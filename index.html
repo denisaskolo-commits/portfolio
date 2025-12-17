@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Denisas Kolomyckis — Practice & Works</title>
+  <meta name="description" content="An artist-representative one-page site: living archive, color fields, grain, and a tiny Tetris gate to unlock the magnet."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <canvas id="grain" aria-hidden="true"></canvas>
+
+  <header class="top">
+    <div class="top__inner">
+      <a class="mark" href="#top" id="homeLink"><span class="mark__name" id="artistName">Denisas Kolomyckis</span><span class="mark__role" id="artistRole">interdisciplinary artist</span></a>
+      <nav class="nav">
+        <a href="#practice">Practice</a>
+        <a href="#works">Works</a>
+        <a href="#unlock">Magnet</a>
+        <a href="#contact">Contact</a>
+        <button id="themeBtn" class="nav__btn" type="button" aria-label="Change color mood">Mood</button>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="wrap">
+    <section class="hero">
+      <div class="hero__bg" aria-hidden="true">
+        <div class="blob b1"></div>
+        <div class="blob b2"></div>
+        <div class="blob b3"></div>
+      </div>
+
+      <div class="hero__inner">
+        <p class="kicker">living index • image + body • installation + document</p>
+        <h1 class="title">
+          <span class="serif">Practice</span> as a shifting system:
+          <span class="underline">performance</span>, <span class="underline">sculpture</span>, <span class="underline">installation</span>, <span class="underline">image</span>.
+        </h1>
+
+        <div class="statement" id="statement"></div>
+
+        <div class="hero__actions">
+          <a class="btn" href="#works">Enter works</a>
+          <a class="btn btn--ghost" href="#unlock">Unlock magnet</a>
+          <button class="btn btn--ghost" id="shuffleBtn" type="button">Shuffle view</button>
+        </div>
+
+        <div class="ticker" aria-hidden="true">
+          <div class="ticker__track">
+            <span>DENISAS • KOLOMYCKIS • WORKS • PRACTICE • PERFORMANCE • SCULPTURE • INSTALLATION • IMAGE •</span>
+            <span>DENISAS • KOLOMYCKIS • WORKS • PRACTICE • PERFORMANCE • SCULPTURE • INSTALLATION • IMAGE •</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="practice" class="section">
+      <div class="section__head">
+        <h2>Practice</h2>
+        <p class="sub">A set of tools rather than a single medium.</p>
+      </div>
+
+      <div class="cards" id="practiceCards"></div>
+
+      <div class="note" id="pressNote"></div>
+    </section>
+
+    <section id="works" class="section">
+      <div class="section__head">
+        <h2>Works</h2>
+        <div class="tools">
+          <label class="search">
+            <span class="sr">Search</span>
+            <input id="search" type="search" placeholder="Search titles, notes…"/>
+          </label>
+          <div class="chips" id="chips" role="toolbar" aria-label="Filters"></div>
+        </div>
+      </div>
+
+      <div class="masonry" id="masonry" aria-live="polite"></div>
+      <p class="small muted">Images imported from the provided portfolio PDF.</p>
+    </section>
+
+    <section id="unlock" class="section">
+      <div class="section__head">
+        <h2>Magnet</h2>
+        <p class="sub" id="magnetSub">Beat Tetris to unlock the magnet.</p>
+      </div>
+
+      <div class="unlock">
+        <div class="unlock__copy">
+          <h3 class="serif" id="magnetHead">Beat Tetris to unlock the magnet.</h3>
+          <p class="muted">Three moves. That’s it. After your 3rd move, the email form appears.</p>
+
+          <div class="keys">
+            <span class="key">←</span><span class="key">→</span> move
+            <span class="key">↑</span> rotate
+            <span class="key">↓</span> drop
+            <span class="key">Space</span> hard drop
+            <span class="key">R</span> restart
+          </div>
+
+          <div class="hud">
+            <span class="pill">Moves <b id="moves">0</b>/3</span>
+            <span class="pill">Lines <b id="lines">0</b></span>
+            <span class="pill pill--dim" id="status">Press Start.</span>
+          </div>
+
+          <div class="unlock__buttons">
+            <button class="btn" id="startBtn" type="button">Start</button>
+            <button class="btn btn--ghost" id="restartBtn" type="button">Restart</button>
+          </div>
+        </div>
+
+        <div class="unlock__game">
+          <canvas id="tetris" width="320" height="640" aria-label="Tetris"></canvas>
+          <div class="crt" aria-hidden="true"></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="section__head">
+        <h2>Contact</h2>
+        <p class="sub">Exhibitions, commissions, press, collaboration.</p>
+      </div>
+
+      <div class="contact">
+        <div class="contact__card">
+          <p class="muted">Email</p>
+          <a id="emailLink" class="big" href="mailto:hello@example.com">hello@example.com</a>
+          <div class="contact__row">
+            <a id="igLink" href="#" target="_blank" rel="noreferrer">Instagram</a>
+            <a href="#works">Works</a>
+            <a href="#unlock">Magnet</a>
+          </div>
+        </div>
+
+        <div class="contact__card">
+          <p class="muted">Note</p>
+          <p class="small muted">
+            This is a static one-page build. The email modal is a demo; connect it to your email provider if you need storage.
+          </p>
+          <div class="contact__row">
+            <button class="btn btn--ghost" id="openEmail" type="button">Open email form</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>© <span id="year"></span> <span id="artistName2">Denisas Kolomyckis</span></span>
+      <span class="muted">one-page studio index</span>
+    </footer>
+  </main>
+
+  <!-- Lightbox -->
+  <div class="modal" id="lightbox" aria-hidden="true" role="dialog" aria-label="Artwork viewer">
+    <div class="modal__back" data-close></div>
+    <div class="modal__panel">
+      <div class="modal__bar">
+        <div>
+          <div class="modal__title" id="lbTitle">Work</div>
+          <div class="modal__meta muted" id="lbMeta"></div>
+        </div>
+        <button class="x" type="button" data-close aria-label="Close">✕</button>
+      </div>
+      <div class="modal__body">
+        <img id="lbImg" alt=""/>
+      </div>
+    </div>
+  </div>
+
+  <!-- Email modal -->
+  <div class="modal" id="emailModal" aria-hidden="true" role="dialog" aria-label="Email unlock">
+    <div class="modal__back" data-close></div>
+    <div class="modal__panel modal__panel--small">
+      <div class="modal__bar">
+        <div>
+          <div class="modal__title">Unlocked</div>
+          <div class="modal__meta muted">Enter your email to get the magnet.</div>
+        </div>
+        <button class="x" type="button" data-close aria-label="Close">✕</button>
+      </div>
+      <div class="modal__body">
+        <form id="emailForm" class="form">
+          <label class="sr" for="email">Email</label>
+          <input id="email" type="email" placeholder="you@email.com" required/>
+          <div class="form__row">
+            <button class="btn" type="submit">Get magnet</button>
+            <a id="magnetLink" href="magnet.pdf" download style="display:none;">Download magnet</a>
+          </div>
+          <p class="small muted">Demo behavior: stores your email in your browser. Add an endpoint in <code>script.js</code> to submit.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="script.js"></script>
+</body>
+</html>
