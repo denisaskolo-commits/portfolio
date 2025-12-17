@@ -1,205 +1,437 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>Denisas Kolomyckis — Practice & Works</title>
-  <meta name="description" content="An artist-representative one-page site: living archive, color fields, grain, and a tiny Tetris gate to unlock the magnet."/>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css"/>
-</head>
-<body>
-  <canvas id="grain" aria-hidden="true"></canvas>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Denisas Kolomyckis — Sculpture / Performance / Publications</title>
+  <meta name="description" content="Denisas Kolomyckis — interdisciplinary artist working across sculpture, installation and performance." />
 
-  <header class="top">
-    <div class="top__inner">
-      <a class="mark" href="#top" id="homeLink"><span class="mark__name" id="artistName">Denisas Kolomyckis</span><span class="mark__role" id="artistRole">interdisciplinary artist</span></a>
-      <nav class="nav">
-        <a href="#practice">Practice</a>
-        <a href="#works">Works</a>
-        <a href="#unlock">Magnet</a>
+  <style>
+    :root{
+      --bg:#ffffff;
+      --fg:#111111;
+      --muted:#6f6f6f;
+      --rule:#e9e9e9;
+      --max:1100px;
+      --pad:24px;
+      --pad-lg:56px;
+      --font: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans", sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background:var(--bg);
+      color:var(--fg);
+      font-family:var(--font);
+      letter-spacing:0.1px;
+    }
+    a{color:inherit; text-decoration: none;}
+    a:hover{opacity:.65}
+    ::selection{background:#111; color:#fff}
+
+    .wrap{max-width:var(--max); margin:0 auto; padding:0 var(--pad);}
+    .topbar{
+      position:fixed; inset:0 0 auto 0;
+      background:rgba(255,255,255,.96);
+      backdrop-filter:saturate(1.2) blur(6px);
+      border-bottom:1px solid var(--rule);
+      z-index:50;
+    }
+    .topbar .wrap{
+      display:flex; align-items:center; justify-content:space-between;
+      padding-top:14px; padding-bottom:14px;
+      gap:16px;
+    }
+    .brand{
+      font-size:14px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      white-space:nowrap;
+    }
+    nav{
+      display:flex; gap:18px; flex-wrap:wrap; justify-content:flex-end;
+      font-size:13px;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+    }
+    nav a{padding:6px 0; border-bottom:1px solid transparent}
+    nav a:focus-visible{outline:2px solid #111; outline-offset:2px}
+    nav a.active{border-bottom-color:#111}
+
+    main{padding-top:74px;}
+    .hero{
+      padding:var(--pad-lg) 0 32px;
+      border-bottom:1px solid var(--rule);
+    }
+    h1{
+      margin:0;
+      font-weight:400;
+      font-size: clamp(40px, 6vw, 84px);
+      line-height:1.02;
+      letter-spacing:-.02em;
+    }
+    .sub{
+      margin-top:14px;
+      max-width:72ch;
+      font-size: clamp(16px, 2.1vw, 22px);
+      line-height:1.5;
+      color:var(--muted);
+    }
+    .meta{
+      margin-top:22px;
+      display:flex; gap:18px; flex-wrap:wrap;
+      font-size:13px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .meta span{white-space:nowrap}
+
+    section{
+      padding:48px 0;
+      border-bottom:1px solid var(--rule);
+      scroll-margin-top:86px;
+    }
+    .section-title{
+      display:flex; align-items:baseline; justify-content:space-between; gap:16px;
+      margin-bottom:16px;
+    }
+    h2{
+      margin:0;
+      font-weight:400;
+      font-size: clamp(22px, 3vw, 34px);
+      letter-spacing:-.01em;
+    }
+    .kicker{
+      font-size:12px;
+      letter-spacing:.18em;
+      text-transform:uppercase;
+      color:var(--muted);
+      white-space:nowrap;
+    }
+    p{
+      margin:0 0 12px 0;
+      font-size:18px;
+      line-height:1.65;
+      max-width:78ch;
+    }
+    .muted{color:var(--muted)}
+    .cols{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap:28px;
+      align-items:start;
+    }
+    .list{
+      margin:0;
+      padding:0;
+      list-style:none;
+      border-top:1px solid var(--rule);
+    }
+    .list li{
+      padding:12px 0;
+      border-bottom:1px solid var(--rule);
+      display:flex; gap:10px; justify-content:space-between; align-items:baseline;
+      font-size:15px;
+      color:var(--fg);
+    }
+    .list li span:first-child{max-width:65ch}
+    .list li span:last-child{color:var(--muted); white-space:nowrap}
+
+    figure{margin:0}
+    .media{
+      margin-top:22px;
+      display:grid;
+      grid-template-columns:repeat(12, 1fr);
+      gap:14px;
+    }
+    .media .ph{
+      grid-column: span 6;
+      border:1px solid var(--rule);
+      background:#fafafa;
+      aspect-ratio: 4 / 3;
+      display:flex;
+      align-items:center; justify-content:center;
+      color:#9a9a9a;
+      font-size:13px;
+      letter-spacing:.14em;
+      text-transform:uppercase;
+      text-align:center;
+      padding:14px;
+    }
+    .media .ph.wide{grid-column: span 12; aspect-ratio: 16 / 7}
+    .caption{
+      margin-top:10px;
+      font-size:13px;
+      line-height:1.5;
+      color:var(--muted);
+      max-width:90ch;
+    }
+
+    .contact{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:26px;
+      margin-top:10px;
+    }
+    .card{
+      border:1px solid var(--rule);
+      padding:18px;
+      background:#fff;
+    }
+    .card h3{
+      margin:0 0 10px 0;
+      font-weight:400;
+      font-size:16px;
+      letter-spacing:.12em;
+      text-transform:uppercase;
+      color:var(--muted);
+    }
+    .card .row{
+      padding:10px 0;
+      border-top:1px solid var(--rule);
+      display:flex; gap:10px; justify-content:space-between; align-items:baseline;
+      font-size:16px;
+    }
+    .card .row:first-of-type{border-top:none; padding-top:0}
+    .small{font-size:14px; color:var(--muted); line-height:1.6}
+
+    footer{
+      padding:28px 0 44px;
+      color:var(--muted);
+      font-size:12px;
+      letter-spacing:.10em;
+      text-transform:uppercase;
+    }
+
+    @media (max-width: 860px){
+      .cols{grid-template-columns:1fr}
+      .contact{grid-template-columns:1fr}
+      .media .ph{grid-column: span 12}
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="wrap">
+      <div class="brand">Denisas Kolomyckis</div>
+      <nav aria-label="Primary">
+        <a href="#sculpture">Sculpture</a>
+        <a href="#performance">Performance</a>
+        <a href="#publications">Publications</a>
         <a href="#contact">Contact</a>
-        <button id="themeBtn" class="nav__btn" type="button" aria-label="Change color mood">Mood</button>
       </nav>
     </div>
   </header>
 
-  <main id="top" class="wrap">
+  <main>
     <section class="hero">
-      <div class="hero__bg" aria-hidden="true">
-        <div class="blob b1"></div>
-        <div class="blob b2"></div>
-        <div class="blob b3"></div>
+      <div class="wrap">
+        <h1>Denisas Kolomyckis</h1>
+        <div class="sub">
+          Interdisciplinary artist working across sculpture, installation and performance, informed by a background in dance and theatre.
+        </div>
+        <div class="meta" aria-label="Quick facts">
+          <span>Born 1992 (Vilnius, Lithuania)</span>
+          <span>Member: Lithuanian Interdisciplinary Artists’ Association</span>
+          <span>Awards: Young Creator (Ministry of Culture, 2020) • M. K. Čiurlionis scholarship (2021) • ArtVilnius young artist award (2021)</span>
+        </div>
       </div>
+    </section>
 
-      <div class="hero__inner">
-        <p class="kicker">living index • image + body • installation + document</p>
-        <h1 class="title">
-          <span class="serif">Practice</span> as a shifting system:
-          <span class="underline">performance</span>, <span class="underline">sculpture</span>, <span class="underline">installation</span>, <span class="underline">image</span>.
-        </h1>
-
-        <div class="statement" id="statement"></div>
-
-        <div class="hero__actions">
-          <a class="btn" href="#works">Enter works</a>
-          <a class="btn btn--ghost" href="#unlock">Unlock magnet</a>
-          <button class="btn btn--ghost" id="shuffleBtn" type="button">Shuffle view</button>
+    <section id="sculpture">
+      <div class="wrap">
+        <div class="section-title">
+          <h2>Sculpture & Installation</h2>
+          <div class="kicker">Selected works & series</div>
         </div>
 
-        <div class="ticker" aria-hidden="true">
-          <div class="ticker__track">
-            <span>DENISAS • KOLOMYCKIS • WORKS • PRACTICE • PERFORMANCE • SCULPTURE • INSTALLATION • IMAGE •</span>
-            <span>DENISAS • KOLOMYCKIS • WORKS • PRACTICE • PERFORMANCE • SCULPTURE • INSTALLATION • IMAGE •</span>
+        <div class="cols">
+          <div>
+            <p>
+              Kolomyckis’ sculptural practice frequently merges physical material, staged space and the logic of the body.
+              He completed BA and MA studies in Sculpture at the Vilnius Academy of Arts, following formative training in ballet
+              at the National M. K. Čiurlionis School of Art and studies at the Conservatoire for Dance and Drama in London.
+            </p>
+
+            <p class="muted">
+              One of the most visible long-term projects, <em>Femina</em>, examines how gender stereotypes shape (and limit)
+              identity and social perception, presented as an installation distributed across public/civic sites in Jonava
+              in collaboration with (AV17) Gallery.
+            </p>
+
+            <div class="media" aria-label="Media placeholders">
+              <div class="ph wide">Replace with hero work image (installation / sculpture)</div>
+              <div class="ph">Replace with “Femina” detail</div>
+              <div class="ph">Replace with installation view</div>
+            </div>
+            <div class="caption">
+              Replace placeholders with real documentation images (title / year / medium / venue). Keep captions short and factual.
+            </div>
+          </div>
+
+          <aside>
+            <ul class="list" aria-label="Selected notes">
+              <li><span><strong>Femina</strong> — installation series exploring gender stereotypes and identity</span><span>ongoing</span></li>
+              <li><span><strong>Bab-ilo</strong> — work published on NOBA</span><span>work</span></li>
+              <li><span><strong>Young Creator Award</strong> — Lithuanian Ministry of Culture</span><span>2020</span></li>
+              <li><span><strong>M. K. Čiurlionis scholarship</strong></span><span>2021</span></li>
+              <li><span><strong>ArtVilnius</strong> — best young artist award</span><span>2021</span></li>
+            </ul>
+
+            <p class="small" style="margin-top:14px;">
+              References:<br/>
+              <a href="https://noba.ac/en/artist/denisas-kolomyckis/" target="_blank" rel="noreferrer">NOBA artist profile</a><br/>
+              <a href="https://www.av17gallery.com/en/denisas-kolomyckis-installation-series-femina-in-jonava/" target="_blank" rel="noreferrer">(AV17) Gallery: “Femina” in Jonava</a><br/>
+              <a href="https://echogonewrong.com/photo-reportage-from-the-exhibition-femina-by-denisas-kolomyckis-in-jonava/" target="_blank" rel="noreferrer">Echo Gone Wrong: “Femina” photo reportage</a>
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="performance">
+      <div class="wrap">
+        <div class="section-title">
+          <h2>Performance</h2>
+          <div class="kicker">Body / public space / politics</div>
+        </div>
+
+        <div class="cols">
+          <div>
+            <p>
+              Performance is central to Kolomyckis’ practice, shaped by years of dance training and stage experience.
+              His work moves between choreographic strategies and sculptural presence—testing how the body can function
+              as a political signal and a social “document” in real time.
+            </p>
+
+            <p class="muted">
+              His public framing of work connects artistic practice with human rights and social inequality themes, including
+              in the context of recognition as a best young artist at ArtVilnius.
+            </p>
+
+            <div class="media">
+              <div class="ph">Replace with performance documentation</div>
+              <div class="ph">Replace with still / staging image</div>
+            </div>
+          </div>
+
+          <aside>
+            <ul class="list" aria-label="Performance-related references">
+              <li><span>Training: National M. K. Čiurlionis School of Art (ballet)</span><span>studies</span></li>
+              <li><span>Studies: Conservatoire for Dance and Drama (London, UK)</span><span>studies</span></li>
+              <li><span>ArtVilnius award context: human rights / social inequality framing</span><span>2021</span></li>
+            </ul>
+
+            <p class="small" style="margin-top:14px;">
+              References:<br/>
+              <a href="https://artvilnius.com/artvilnius21-best-young-artist-announces-manifestos-for-human-rights-and-fights-against-social-inequality/" target="_blank" rel="noreferrer">ArtVilnius announcement</a><br/>
+              <a href="https://www.lrt.lt/naujienos/kultura/12/1522212/geriausias-artvilnius-21-jaunasis-menininkas-skelbia-manifestus-uz-zmogaus-teises-ir-kovoja-pries-socialine-nelygybe" target="_blank" rel="noreferrer">LRT coverage</a>
+            </p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="publications">
+      <div class="wrap">
+        <div class="section-title">
+          <h2>Publications</h2>
+          <div class="kicker">Texts / interviews / profiles</div>
+        </div>
+
+        <p>
+          Selected public texts and profiles that contextualize Kolomyckis’ practice across art, performance and cultural work.
+        </p>
+
+        <ul class="list" aria-label="Selected publications and profiles">
+          <li><span><a href="https://noba.ac/en/artist/denisas-kolomyckis/" target="_blank" rel="noreferrer">NOBA — artist profile (bio, awards, works)</a></span><span>profile</span></li>
+          <li><span><a href="https://echogonewrong.com/photo-reportage-from-the-exhibition-femina-by-denisas-kolomyckis-in-jonava/" target="_blank" rel="noreferrer">Echo Gone Wrong — “Femina” photo reportage + bio note</a></span><span>2024</span></li>
+          <li><span><a href="https://artvilnius.com/artvilnius21-best-young-artist-announces-manifestos-for-human-rights-and-fights-against-social-inequality/" target="_blank" rel="noreferrer">ArtVilnius — Best Young Artist announcement</a></span><span>2021</span></li>
+          <li><span><a href="https://cafebabel.com/en/article/denisas-kolomyckis-lithuanian-society-will-be-ready-for-lgbt-rights-in-a-few-years-5ae0087cf723b35a145e3a92/index.html" target="_blank" rel="noreferrer">Cafébabel — interview (background in ballet; LGBT rights)</a></span><span>2013</span></li>
+          <li><span><a href="https://www.cultureinexternalrelations.eu/2021/11/04/denisas-kolomyckis-lithuania-gcrp-2021/" target="_blank" rel="noreferrer">Cultural Relations Platform — profile</a></span><span>2021</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="wrap">
+        <div class="section-title">
+          <h2>Contact</h2>
+          <div class="kicker">Exhibitions / commissions / press</div>
+        </div>
+
+        <p class="muted">
+          For collaboration, exhibition proposals, and press requests, use the channels below.
+        </p>
+
+        <div class="contact">
+          <div class="card">
+            <h3>Links</h3>
+            <div class="row"><div>Instagram</div><div><a href="https://www.instagram.com/kolomyckis/" target="_blank" rel="noreferrer">@kolomyckis</a></div></div>
+            <div class="row"><div>NOBA</div><div><a href="https://noba.ac/en/artist/denisas-kolomyckis/" target="_blank" rel="noreferrer">Profile</a></div></div>
+            <div class="row"><div>AV17</div><div><a href="https://www.av17gallery.com/en/denisas-kolomyckis-installation-series-femina-in-jonava/" target="_blank" rel="noreferrer">Project page</a></div></div>
+            <p class="small" style="margin-top:12px;">
+              Add a direct email here when you confirm the preferred address.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Quick message</h3>
+            <p class="small" style="margin-top:0;">
+              This form uses <code>mailto:</code> (opens the visitor’s email client). Replace <code>YOUR_EMAIL_HERE</code> with the correct email.
+            </p>
+
+            <form action="mailto:YOUR_EMAIL_HERE" method="post" enctype="text/plain" style="margin-top:12px;">
+              <label style="display:block; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);">
+                Name
+                <input name="name" required style="width:100%; margin-top:8px; padding:12px; border:1px solid var(--rule); font-size:16px;" />
+              </label>
+
+              <label style="display:block; margin-top:12px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);">
+                Email
+                <input name="email" type="email" required style="width:100%; margin-top:8px; padding:12px; border:1px solid var(--rule); font-size:16px;" />
+              </label>
+
+              <label style="display:block; margin-top:12px; font-size:12px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted);">
+                Message
+                <textarea name="message" rows="5" required style="width:100%; margin-top:8px; padding:12px; border:1px solid var(--rule); font-size:16px; line-height:1.5;"></textarea>
+              </label>
+
+              <button type="submit" style="margin-top:14px; padding:12px 16px; border:1px solid #111; background:#fff; font-size:13px; letter-spacing:.16em; text-transform:uppercase; cursor:pointer;">
+                Send
+              </button>
+            </form>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="practice" class="section">
-      <div class="section__head">
-        <h2>Practice</h2>
-        <p class="sub">A set of tools rather than a single medium.</p>
+    <footer>
+      <div class="wrap">
+        © <span id="y"></span> Denisas Kolomyckis — Portfolio landing page
       </div>
-
-      <div class="cards" id="practiceCards"></div>
-
-      <div class="note" id="pressNote"></div>
-    </section>
-
-    <section id="works" class="section">
-      <div class="section__head">
-        <h2>Works</h2>
-        <div class="tools">
-          <label class="search">
-            <span class="sr">Search</span>
-            <input id="search" type="search" placeholder="Search titles, notes…"/>
-          </label>
-          <div class="chips" id="chips" role="toolbar" aria-label="Filters"></div>
-        </div>
-      </div>
-
-      <div class="masonry" id="masonry" aria-live="polite"></div>
-      <p class="small muted">Images imported from the provided portfolio PDF.</p>
-    </section>
-
-    <section id="unlock" class="section">
-      <div class="section__head">
-        <h2>Magnet</h2>
-        <p class="sub" id="magnetSub">Beat Tetris to unlock the magnet.</p>
-      </div>
-
-      <div class="unlock">
-        <div class="unlock__copy">
-          <h3 class="serif" id="magnetHead">Beat Tetris to unlock the magnet.</h3>
-          <p class="muted">Three moves. That’s it. After your 3rd move, the email form appears.</p>
-
-          <div class="keys">
-            <span class="key">←</span><span class="key">→</span> move
-            <span class="key">↑</span> rotate
-            <span class="key">↓</span> drop
-            <span class="key">Space</span> hard drop
-            <span class="key">R</span> restart
-          </div>
-
-          <div class="hud">
-            <span class="pill">Moves <b id="moves">0</b>/3</span>
-            <span class="pill">Lines <b id="lines">0</b></span>
-            <span class="pill pill--dim" id="status">Press Start.</span>
-          </div>
-
-          <div class="unlock__buttons">
-            <button class="btn" id="startBtn" type="button">Start</button>
-            <button class="btn btn--ghost" id="restartBtn" type="button">Restart</button>
-          </div>
-        </div>
-
-        <div class="unlock__game">
-          <canvas id="tetris" width="320" height="640" aria-label="Tetris"></canvas>
-          <div class="crt" aria-hidden="true"></div>
-        </div>
-      </div>
-    </section>
-
-    <section id="contact" class="section">
-      <div class="section__head">
-        <h2>Contact</h2>
-        <p class="sub">Exhibitions, commissions, press, collaboration.</p>
-      </div>
-
-      <div class="contact">
-        <div class="contact__card">
-          <p class="muted">Email</p>
-          <a id="emailLink" class="big" href="mailto:hello@example.com">hello@example.com</a>
-          <div class="contact__row">
-            <a id="igLink" href="#" target="_blank" rel="noreferrer">Instagram</a>
-            <a href="#works">Works</a>
-            <a href="#unlock">Magnet</a>
-          </div>
-        </div>
-
-        <div class="contact__card">
-          <p class="muted">Note</p>
-          <p class="small muted">
-            This is a static one-page build. The email modal is a demo; connect it to your email provider if you need storage.
-          </p>
-          <div class="contact__row">
-            <button class="btn btn--ghost" id="openEmail" type="button">Open email form</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <span>© <span id="year"></span> <span id="artistName2">Denisas Kolomyckis</span></span>
-      <span class="muted">one-page studio index</span>
     </footer>
   </main>
 
-  <!-- Lightbox -->
-  <div class="modal" id="lightbox" aria-hidden="true" role="dialog" aria-label="Artwork viewer">
-    <div class="modal__back" data-close></div>
-    <div class="modal__panel">
-      <div class="modal__bar">
-        <div>
-          <div class="modal__title" id="lbTitle">Work</div>
-          <div class="modal__meta muted" id="lbMeta"></div>
-        </div>
-        <button class="x" type="button" data-close aria-label="Close">✕</button>
-      </div>
-      <div class="modal__body">
-        <img id="lbImg" alt=""/>
-      </div>
-    </div>
-  </div>
+  <script>
+    const links = [...document.querySelectorAll('nav a')];
+    const sections = links.map(a => document.querySelector(a.getAttribute('href'))).filter(Boolean);
 
-  <!-- Email modal -->
-  <div class="modal" id="emailModal" aria-hidden="true" role="dialog" aria-label="Email unlock">
-    <div class="modal__back" data-close></div>
-    <div class="modal__panel modal__panel--small">
-      <div class="modal__bar">
-        <div>
-          <div class="modal__title">Unlocked</div>
-          <div class="modal__meta muted">Enter your email to get the magnet.</div>
-        </div>
-        <button class="x" type="button" data-close aria-label="Close">✕</button>
-      </div>
-      <div class="modal__body">
-        <form id="emailForm" class="form">
-          <label class="sr" for="email">Email</label>
-          <input id="email" type="email" placeholder="you@email.com" required/>
-          <div class="form__row">
-            <button class="btn" type="submit">Get magnet</button>
-            <a id="magnetLink" href="magnet.pdf" download style="display:none;">Download magnet</a>
-          </div>
-          <p class="small muted">Demo behavior: stores your email in your browser. Add an endpoint in <code>script.js</code> to submit.</p>
-        </form>
-      </div>
-    </div>
-  </div>
+    const setActive = () => {
+      const y = window.scrollY + 110;
+      let current = sections[0];
+      for (const s of sections) if (s.offsetTop <= y) current = s;
+      links.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current.id));
+    };
 
-  <script type="module" src="script.js"></script>
+    window.addEventListener('scroll', setActive, {passive:true});
+    window.addEventListener('load', setActive);
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
